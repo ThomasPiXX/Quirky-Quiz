@@ -1,3 +1,20 @@
+# Quiz Web App
+
+This is a simple quiz web app built using React and React Router.
+
+## Features
+
+- Select a quiz from the quiz selection page.
+- Answer questions and see your score.
+- Restart the quiz or go back to the quiz selection page.
+
+## Technologies Used
+
+- React
+- React Router
+- Materialize CSS
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
