@@ -2,37 +2,41 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 
-function QuizSelection() {
+function QuizSelection({quizzes}) {
   const navigate = useNavigate();
 
-  const handleButtonClick = (quizId) => {
-    navigate(`/quiz/${quizId}`);
+  const handleButtonClick = (quizId, quizType) => {
+    navigate(`/quiz/${quizType}/${quizId}`);
   };
 
   return (
     <div className="container">
-      <h1 className="center-align">Select a Quiz</h1>
       <div className="row">
-        <div className="col s6">
+        <div className="col s12 center-align">
+          <h1>Quirky Quiz</h1>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col offset-s4">
           <button
             className="btn waves-effect waves-light"
-            onClick={() => handleButtonClick(1)}
+            onClick={() => handleButtonClick(quizzes[0].id, quizzes[0].type)}
           >
-            JS Quiz
+            {quizzes[0].label}
           </button>
         </div>
-        <div className="col s6">
+        <div className="col offset-s1">
           <button
             className="btn waves-effect waves-light"
-            onClick={() => handleButtonClick(2)}
+            onClick={() => handleButtonClick(quizzes[1].id, quizzes[1].type)}
           >
-            Future Quiz
+            {quizzes[1].label}
           </button>
         </div>
       </div>
-      {/* Add more buttons or customize as needed */}
     </div>
   );
+
 }
 
 export default QuizSelection;
