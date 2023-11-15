@@ -13,7 +13,7 @@ function QuizSelection({quizzes}) {
     <div className="container">
       <div className="row">
         <div className="col s12 center-align">
-          <h1>Quirky Quiz</h1>
+          <h1>deepCode</h1>
         </div>
       </div>
       <div className="row">
