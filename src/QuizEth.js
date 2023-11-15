@@ -77,7 +77,7 @@ const QuizEth = () => {
             <div className="col s12">
               <h4 className="question">{questions[currentQuestion].question}</h4>
               <div className="options">
-                {questions[currentQuestion].options.map((option, index) => (
+                {questions[currentQuestion].option.map((option, index) => (
                   <div key={index} className="card blue-grey darken-1">
                     <div className="card-content white-text">
                       <button
