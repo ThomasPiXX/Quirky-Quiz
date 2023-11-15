@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 
 
 const Quiz = () => {
     const initialQuestions = [
+        {
+            question: 'console.log("5" - 3);',
+            options: ['2', '8', '53', 'NaN'],
+            correctAnswer: '2',
+        },
+        {
+            question: 'console.log(typeof NaN === "number");',
+            options: ['true', 'false', 'undefined', 'NaN'],
+            correctAnswer: 'true',
+        },
+        {
+            question: 'console.log([] == ![]);',
+            options: ['true', 'false', 'undefined', 'NaN'],
+            correctAnswer: 'true',
+        },  
+        {
+            question: 'console.log(2 + "2" == "2" + 2);',
+            options: ['true', 'false', 'undefined', 'NaN'],
+            correctAnswer: 'true',
+        },
         {
             question:'function checkSign(-3){ return num < 0 ? "positive" : num < 0 ? "negative" : "zero"};',
             options: ['positive', 'negative','zero'],
@@ -23,6 +43,20 @@ const Quiz = () => {
     const [score, setScore] = useState(0);
     const [quizCompleted, setQuizCompleted] = useState(false);
     const Navigate = useNavigate();
+
+    const shuffleArray = (array) => {
+      const shuffledArray = [...array];
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1 ));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      }
+      return shuffledArray;
+    }
+
+    useEffect(() => {
+
+      setQuestions(shuffleArray(initialQuestions));
+    }, []);
 
     const handleAnswerClick = (selectedAnswer) => {
       if (selectedAnswer === questions[currentQuestion].correctAnswer) {
