@@ -235,7 +235,11 @@ const Quiz = () => {
               <div className="col s12">
                 <div className="">
                   <div className="card-content white-text">
-                    <p className="center-align">{customAlertMessage}</p>
+                    <p className="center-align">
+                      {customAlertMessage === 'Incorrect!'
+                      ? `Correct Answer: ${questions[currentQuestion - 1].correctAnswer}`
+                    : customAlertMessage}
+                    </p>
                   </div>
                 </div>
               </div>
