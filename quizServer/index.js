@@ -20,7 +20,6 @@ app.get('/jsquiz', (req, res) => {
             res.status(500).json({ error: 'Internal server error' });
             return;
         }
-        console.log(rows);
         console.log('send back')
         res.json(rows);
     });

@@ -4,7 +4,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
 
 const Quiz = () => {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState(null); // Initialize to null
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -23,17 +23,25 @@ const Quiz = () => {
 
   useEffect(() => {
     axios.get('/jsquiz')
-    .then((response) => {
-      console.log('server respons', response.data);
-      if(response.data.length > 0) {
-        console.log('sample question object', response.data[0]);
-      }
-
-      const shuffledQuestions = shuffleArray(response.data);
-      console.log('shuffled questions:', shuffledQuestions);
-      setQuestions(shuffledQuestions);
-    })
+      .then((response) => {
+        const dataWithParsedOptions = response.data.map(question => {
+          return {
+            ...question,
+            options: JSON.parse(question.options) // Parse the options string into an array
+          };
+        });
+  
+        const shuffledQuestions = shuffleArray(dataWithParsedOptions);
+        setQuestions(shuffledQuestions);
+      })
+      .catch((error) => {
+        console.error('Error fetching questions:', error);
+      });
   }, []);
+
+  if (!questions) { // Check if questions data has been loaded
+    return <div>Loading quiz...</div>;
+  }
 
   const handleAnswerClick = (selectedAnswer) => {
     let isCorrect = selectedAnswer === questions[currentQuestion].correctAnswer;
@@ -55,7 +63,6 @@ const Quiz = () => {
   };
 
   const handleRestartQuiz = () => {
-    // Fetch and shuffle questions again when restarting the quiz
     axios.get('/jsquiz')
       .then((response) => {
         const shuffledQuestions = shuffleArray(response.data);
