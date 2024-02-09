@@ -7,6 +7,7 @@ const Quiz = () => {
   const [questions, setQuestions] = useState(null); // Initialize to null
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
+  const [previousQuestion, setPreviousQuestion] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
@@ -27,7 +28,7 @@ const Quiz = () => {
         const dataWithParsedOptions = response.data.map(question => {
           return {
             ...question,
-            options: JSON.parse(question.options) // Parse the options string into an array
+            options: JSON.parse(question.options)
           };
         });
   
@@ -54,6 +55,9 @@ const Quiz = () => {
     setShowCustomAlert(true);
 
     const nextQuestion = currentQuestion + 1;
+    const previousQuestion = currentQuestion;
+
+    setPreviousQuestion(previousQuestion);
 
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
@@ -63,19 +67,29 @@ const Quiz = () => {
   };
 
   const handleRestartQuiz = () => {
+
+    //TODO fix the restart quizz logic
+
     axios.get('/jsquiz')
       .then((response) => {
-        const shuffledQuestions = shuffleArray(response.data);
+        const dataWithParsedOptions = response.data.map(question => {
+          return {
+            ...question,
+            options: JSON.parse(question.options) // Parse the options string into an array
+          };
+        });
+  
+        const shuffledQuestions = shuffleArray(dataWithParsedOptions);
         setQuestions(shuffledQuestions);
       })
       .catch((error) => {
         console.error('Error fetching questions:', error);
       });
-
+    setShowCustomAlert(false);
     setCurrentQuestion(0);
     setScore(0);
     setQuizCompleted(false);
-  };
+    };
 
   const handleBackToQuizSelection = () => {
     Navigate('/');
@@ -141,7 +155,7 @@ const Quiz = () => {
                     <div className="card-content white-text">
                       <p className="center-align">
                         {customAlertMessage === 'Incorrect!'
-                          ? `Correct Answer: ${questions[currentQuestion]?.correctAnswer}`
+                          ? `Correct Answer: ${questions[previousQuestion]?.correctAnswer}`
                           : customAlertMessage}
                       </p>
                     </div>

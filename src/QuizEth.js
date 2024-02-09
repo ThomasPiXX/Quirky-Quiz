@@ -6,6 +6,7 @@ import axios from 'axios';
 const QuizEth = () => {
   const [questions, setQuestions] = useState(null); // Initialize to null
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [previousQuestion, setPreviousQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const Navigate = useNavigate();
@@ -54,6 +55,8 @@ const QuizEth = () => {
     setShowCustomAlert(true);
 
     const nextQuestion = currentQuestion + 1;
+    const previousQuestion = currentQuestion;
+    setPreviousQuestion(previousQuestion);
 
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
@@ -141,7 +144,7 @@ const QuizEth = () => {
                     <div className="card-content white-text">
                       <p className="center-align">
                         {customAlertMessage === 'Incorrect!'
-                          ? `Correct Answer: ${questions[currentQuestion]?.correctAnswer}`
+                          ? `Correct Answer: ${questions[previousQuestion]?.correctAnswer}`
                           : customAlertMessage}
                       </p>
                     </div>
