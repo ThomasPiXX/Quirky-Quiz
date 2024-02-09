@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // SQLite connection db
+
+//JS Quiz connection
 const db = new sqlite3.Database('quiz.db');
 
 app.get('/jsquiz', (req, res) => {
@@ -25,6 +27,24 @@ app.get('/jsquiz', (req, res) => {
     });
 });
 
+//ETH quizz connection 
+
+app.get('./ethQuiz', (req, res) => {
+    console.log('eth quiz route hit');
+    db.all('SELECT * FROM questionEth', (err, rows) => {
+        if(err) {
+            console.error(err.message);
+            res.status(500).json({error: 'Internal servor error'});
+            return;
+        }
+        console.log('request send back to front end');
+        res.json(rows);
+    })
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
+
+
