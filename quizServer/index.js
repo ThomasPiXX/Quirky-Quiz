@@ -29,7 +29,7 @@ app.get('/jsquiz', (req, res) => {
 
 //ETH quizz connection 
 
-app.get('./ethQuiz', (req, res) => {
+app.get('/ethQuiz', (req, res) => {
     console.log('eth quiz route hit');
     db.all('SELECT * FROM questionEth', (err, rows) => {
         if(err) {

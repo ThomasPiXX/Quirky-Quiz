@@ -66,19 +66,27 @@ const QuizEth = () => {
   };
 
   const handleRestartQuiz = () => {
+    
     axios.get('/ethQuiz')
-      .then((response) => {
-        const shuffledQuestions = shuffleArray(response.data);
-        setQuestions(shuffledQuestions);
-      })
-      .catch((error) => {
-        console.error('Error fetching questions:', error);
+    .then((response) => {
+      const dataWithParsedOptions = response.data.map(question => {
+        return {
+          ...question,
+          options: JSON.parse(question.options)
+        };
       });
 
+      const shuffledQuestion = shuffleArray(dataWithParsedOptions);
+      setQuestions(shuffledQuestion);
+    })
+    .catch((error) => {
+      console.error(`Error fetching question:`, error);
+    })
+    setShowCustomAlert(false);
     setCurrentQuestion(0);
     setScore(0);
     setQuizCompleted(false);
-  };
+  }
 
   const handleBackToQuizSelection = () => {
     Navigate('/');

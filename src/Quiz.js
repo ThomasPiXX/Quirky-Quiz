@@ -75,7 +75,7 @@ const Quiz = () => {
         const dataWithParsedOptions = response.data.map(question => {
           return {
             ...question,
-            options: JSON.parse(question.options) // Parse the options string into an array
+            options: JSON.parse(question.options)
           };
         });
   
