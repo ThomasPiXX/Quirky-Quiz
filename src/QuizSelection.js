@@ -2,12 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 
+
 function QuizSelection({quizzes}) {
   const navigate = useNavigate();
 
   const handleButtonClick = (quizId, quizType) => {
     navigate(`/quiz/${quizType}/${quizId}`);
   };
+
+
 
   return (
     <div className="container">
@@ -31,6 +34,22 @@ function QuizSelection({quizzes}) {
             onClick={() => handleButtonClick(quizzes[1].id, quizzes[1].type)}
           >
             {quizzes[1].label}
+          </button>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col offset-s4">
+          <button className =" btn waves-effect waves-light"
+          onClick={() => handleButtonClick(quizzes[2].id, quizzes[2].type)}>
+            Login
+          </button>
+        </div>
+      </div>
+      <div className='row'>
+        <div className="col offset-s4">
+          <button className ="btn waves-effect waves-light"
+          onClick={() => handleButtonClick(quizzes[3].id, quizzes[3].type)}>
+            sign Up
           </button>
         </div>
       </div>

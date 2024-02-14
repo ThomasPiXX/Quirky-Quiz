@@ -40,7 +40,7 @@ const Quiz = () => {
       });
   }, []);
 
-  if (!questions) { // Check if questions data has been loaded
+  if (!questions) { 
     return <div>Loading quiz...</div>;
   }
 
