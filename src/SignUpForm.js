@@ -18,7 +18,7 @@ function SignUpForm() {
     const handleSignUp = async(event) => {
         event.preventDefault();
         try{
-            const response = await axios.post('./login', {
+            const response = await axios.post('./createAccount', {
                 username,
                 password,
                 confirmPassword,

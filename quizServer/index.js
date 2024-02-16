@@ -10,13 +10,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // SQLite connection db
-
-//JS Quiz connection
-const db = new sqlite3.Database('quiz.db');
+const dbUser = new sqlite3.Database('user.db');
+const dbQuiz = new sqlite3.Database('quiz.db');
 
 app.get('/jsquiz', (req, res) => {
     console.log('Route hit: /jsquiz');
-    db.all('SELECT * FROM questionsJS', (err, rows) => {
+    dbQuiz.all('SELECT * FROM questionsJS', (err, rows) => {
         if (err) {
             console.error(err.message);
             res.status(500).json({ error: 'Internal server error' });
@@ -31,7 +30,7 @@ app.get('/jsquiz', (req, res) => {
 
 app.get('/ethQuiz', (req, res) => {
     console.log('eth quiz route hit');
-    db.all('SELECT * FROM questionEth', (err, rows) => {
+    dbQuiz.all('SELECT * FROM questionEth', (err, rows) => {
         if(err) {
             console.error(err.message);
             res.status(500).json({error: 'Internal servor error'});
@@ -40,6 +39,28 @@ app.get('/ethQuiz', (req, res) => {
         console.log('request send back to front end');
         res.json(rows);
     })
+})
+
+//login request
+app.post('/login', (req, res) => {
+    console.log('login attempt');
+
+})
+
+//sign up request
+app.post('/createAccount', (req, res) => {
+    const{ username, password } = req.body;
+
+    dbUser.get("SELECT * FROM users WHERE user_name=?", [username], (error, row) =>{
+        if(error) throw error;
+        
+        if(row){
+            console.log("User already exist");
+            res.status(400).send('User already exist');
+        }else{
+            passwordHasher(password), (error, hashedPassword)
+        }
+    }
 })
 
 
