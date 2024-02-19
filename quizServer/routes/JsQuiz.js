@@ -1,8 +1,10 @@
 const sqlite3 = require('sqlite3');
-const { app, } = require('../index')
-const dbQuiz = new sqlite3.Database('../quiz.db');
+const express = require('express');
+const dbQuiz = new sqlite3.Database('./quiz.db');
+const jsRoute = express.Router();
 
-app.get('/jsquiz', (req, res) => {
+
+jsRoute.get('/jsquiz', (req, res) => {
     console.log('Route hit: /jsquiz');
     dbQuiz.all('SELECT * FROM questionsJS', (err, rows) => {
         if (err) {
@@ -15,3 +17,6 @@ app.get('/jsquiz', (req, res) => {
     });
 });
 
+module.exports = {
+    jsRoute,
+}

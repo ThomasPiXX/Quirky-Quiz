@@ -19,7 +19,7 @@ signUpRouter.post('./signUp,', (req, res) => {
                     res.status(500).send('Error hashing password');
                     return;
                 }
-                dbUser("INSERT INTO users (user_name, user_password) VALUES(?,?)", [username, hashedPassword], (error) => {
+                dbUser("INSERT INTO users (user_name, user_password, JsScores, EthScores) VALUES(?,?,?,?)", [username, hashedPassword, 0, 0 ], (error) => {
                     if(error){
                         console.log(error);
                         res.status(400).send('error trying to insert new user to the Database');

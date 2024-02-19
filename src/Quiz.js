@@ -23,7 +23,7 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    axios.get('/jsquiz')
+    axios.get('/api/jsquiz')
       .then((response) => {
         const dataWithParsedOptions = response.data.map(question => {
           return {
@@ -70,7 +70,7 @@ const Quiz = () => {
 
     //TODO fix the restart quizz logic
 
-    axios.get('/jsquiz')
+    axios.get('/api/jsquiz')
       .then((response) => {
         const dataWithParsedOptions = response.data.map(question => {
           return {

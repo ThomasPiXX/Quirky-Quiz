@@ -23,7 +23,7 @@ const QuizEth = () => {
   };
 
   useEffect(() => {
-    axios.get('/ethQuiz')
+    axios.get('/api/ethQuiz')
       .then((response) => {
         const dataWithParsedOptions = response.data.map(question => {
           return {
@@ -67,7 +67,7 @@ const QuizEth = () => {
 
   const handleRestartQuiz = () => {
     
-    axios.get('/ethQuiz')
+    axios.get('/api/ethQuiz')
     .then((response) => {
       const dataWithParsedOptions = response.data.map(question => {
         return {
