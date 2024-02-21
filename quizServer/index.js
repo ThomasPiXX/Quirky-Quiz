@@ -7,7 +7,9 @@ const cookieParser = require('cookie-parser');
 const { csrfProtection } = require('./utils/csurf');
 const { ethRoute } = require('./routes/EthQuiz');
 const { signUpRouter } = require('./routes/signUp');
+const { signInRouter } = require('./routes/signIn');
 const { jsRoute } = require('./routes/JsQuiz');
+const { passport } = require('./utils/passport');
 const app = express();
 const port = 3001;
 
@@ -17,10 +19,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(csrfProtection);
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
 
 
 app.use(session({
-    secret: cookieHash,
+    secret: cookieHash(),
     resave: false,
     saveUninitialized: false,
 }));
@@ -34,6 +38,7 @@ app.use(cors(corsOption));
 app.use('/api', ethRoute);
 app.use('/api', jsRoute);
 app.use('/api', signUpRouter);
+app.use('/api', signInRouter);
 
 
 
