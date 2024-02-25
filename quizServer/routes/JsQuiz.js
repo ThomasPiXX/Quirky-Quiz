@@ -4,6 +4,7 @@ const dbQuiz = new sqlite3.Database('./quiz.db');
 const jsRoute = express.Router();
 
 
+
 jsRoute.get('/jsquiz', (req, res) => {
     console.log('Route hit: /jsquiz');
     dbQuiz.all('SELECT * FROM questionsJS', (err, rows) => {

@@ -3,6 +3,8 @@ const express = require('express')
 const ethRoute = express.Router();
 const dbQuiz = new sqlite3.Database('./quiz.db');
 
+
+
 ethRoute.get('/ethQuiz', (req, res) => {
     console.log('eth quiz route hit');
     dbQuiz.all('SELECT * FROM questionETH', (err, rows) => {
