@@ -2,10 +2,13 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import 'materialize-css/dist/css/materialize.min.css';
 import { useNavigate } from 'react-router-dom';
+import useCsrfToken  from './csrfToken1';
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const csrfToken = useCsrfToken(); 
+
     const Navigate = useNavigate();
 
     const handleBackToQuizSelection = () => {
@@ -16,6 +19,7 @@ function LoginForm() {
         event.preventDefault();
         try{
             const response = await axios.post('/login',{
+                'CSRF-Token': csrfToken,
                 username,
                 password,
             });

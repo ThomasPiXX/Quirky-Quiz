@@ -2,7 +2,7 @@ import {useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useCsrfToken = () => {
-    const [csrfToken, setCsrfToken] = useState('');
+    const [useCsrfToken, setCsrfToken] = useState('');
  
 
  useEffect(() => {
@@ -18,7 +18,7 @@ const useCsrfToken = () => {
     fetchCsrfToken();
  }, []);
 
- return csrfToken;
+ return useCsrfToken;
 }
 
 
