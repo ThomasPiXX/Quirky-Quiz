@@ -12,6 +12,7 @@ const { jsRoute } = require('./routes/JsQuiz');
 const { passport } = require('./utils/passport');
 const app = express();
 const port = 3001;
+const { csrfTokenRouter } = require('./routes/csrfToken');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(csrfProtection);
 app.use(bodyParser.json());
 app.use(passport.initialize());
+
 
 
 
@@ -39,6 +41,7 @@ app.use('/api', ethRoute);
 app.use('/api', jsRoute);
 app.use('/api', signUpRouter);
 app.use('/api', signInRouter);
+app.use('/api', csrfTokenRouter);
 
 
 

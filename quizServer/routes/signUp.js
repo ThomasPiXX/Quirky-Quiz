@@ -2,9 +2,9 @@ const sqlite3 = require('sqlite3');
 const express = require('express');
 const signUpRouter = express.Router();
 const dbUser = new sqlite3.Database('../user.db');
-const { passwordHasher }= require('../utils/passwordHasher')
+const { passwordHasher }= require('../utils/passwordHasher');
 
-signUpRouter.post('/api/createAccount,', (req, res) => {
+signUpRouter.post('/api/createAccount', (req, res) => {
     const { username, password } = req.body;
 
 
