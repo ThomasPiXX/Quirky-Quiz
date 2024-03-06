@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import 'materialize-css/dist/css/materialize.min.css';
 import { useNavigate } from 'react-router-dom';
-import useCsrfToken  from './csrfToken1';
+import useCsrfToken  from './csrfToken';
 
 function LoginForm() {
     const [username, setUsername] = useState('');

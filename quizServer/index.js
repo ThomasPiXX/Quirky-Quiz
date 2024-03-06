@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(csrfProtection);
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
@@ -32,9 +31,12 @@ app.use(session({
 }));
 
 const corsOption = {
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    Credentials: true,
 }
 app.use(cors(corsOption));
+
+app.use(csrfProtection);
 
 //routes
 app.use('/api', ethRoute);

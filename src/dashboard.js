@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'materialize-css/dist/css/materialize.min.css';
 import Quiz from '/Quiz';
 import QuizEth from '/QuizEth';
+import useCsrfToken from './csrfToken';
 
 
 
@@ -11,6 +12,7 @@ const dashBoard =  () => {
     const [username, setUsername] = useState('');
     const [ethStat, setEthStat] = useState('');
     const [jsStat, setJsStat] = useState('');
+    const csrfToken = useCsrfToken();
 
 
     useEffect(() => {

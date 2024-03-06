@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
+import useCsrfToken from './csrfToken';
 
 function SignUpForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const Navigate = useNavigate();
+    const {csrfToken, loading } =  useCsrfToken();
 
     const handleBackToQuizSelection = () => {
         Navigate('/');
@@ -17,11 +19,21 @@ function SignUpForm() {
 
     const handleSignUp = async(event) => {
         event.preventDefault();
+
+        if(loading) {
+            console.error('CSRF token not yet loaded');
+            return;
+        }
+
         try{
-            const response = await axios.post('./createAccount', {
+            const response = await axios.post('/api/createAccount', {
                 username,
                 password,
                 confirmPassword,
+            },{
+                headers: {
+                    'csrf-Token': csrfToken,
+                },
             });
             if(response.status === 200) {
                 console.log('login succesful:', response.data.token);
@@ -54,11 +66,11 @@ function SignUpForm() {
                 </div>
             </div>
             <div className='row'>
-                <button className ='btn waves-effect waves-light' type="submit">SignUp</button>
+                <button className ='btn waves-effect waves-light' type="submit" disable={loading}>SignUp</button>
             </div>
             <div className='row'>
                 <button className= 'btn waves-effect waves-light' type="submit" onClick={handleBackToQuizSelection}>Home</button>
-            </div>
+            </div> 
         </form>
     );
 }
