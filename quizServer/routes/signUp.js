@@ -4,9 +4,11 @@ const signUpRouter = express.Router();
 const dbUser = new sqlite3.Database('../user.db');
 const { passwordHasher }= require('../utils/passwordHasher');
 
-signUpRouter.post('/api/createAccount', (req, res) => {
+signUpRouter.post('/createAccount', (req, res) => {
+    console.log(req.body);
+    console.log(req.headers);
+    
     const { username, password, csrfToken  } = req.body;
-
 
     dbUser.run("SELECT * FROM users WHERE user_name=?", [username], (error, row) => {
         if(error) throw error;

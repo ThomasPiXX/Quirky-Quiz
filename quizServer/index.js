@@ -28,13 +28,14 @@ app.use(session({
     secret: cookieHash(),
     resave: false,
     saveUninitialized: false,
+    cookie:{secure: 'auto', httpOnly: true }
 }));
 
-const corsOption = {
-    origin: 'http://localhost:3000',
-    Credentials: true,
-}
-app.use(cors(corsOption));
+const corsOptions = {
+    origin: 'http://localhost:3000', // Your frontend origin
+    credentials: true, // Essential for cookies and authentication
+};
+app.use(cors(corsOptions));
 
 app.use(csrfProtection);
 

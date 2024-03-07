@@ -31,8 +31,9 @@ function SignUpForm() {
                 password,
                 confirmPassword,
             },{
+                withCredentials: true,
                 headers: {
-                    'csrf-Token': csrfToken,
+                    'CSRF-Token': csrfToken,
                 },
             });
             if(response.status === 200) {
