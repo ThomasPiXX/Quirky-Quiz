@@ -1,7 +1,9 @@
 const sqlite3 = require('sqlite3');
+const path = require('path');
 const express = require('express');
 const signUpRouter = express.Router();
-const dbUser = new sqlite3.Database('../user.db');
+const dbPath = path.resolve(__dirname, '../user.db');
+const dbUser = new sqlite3.Database(dbPath);
 const { passwordHasher }= require('../utils/passwordHasher');
 
 signUpRouter.post('/createAccount', (req, res) => {
@@ -10,7 +12,7 @@ signUpRouter.post('/createAccount', (req, res) => {
     
     const { username, password, csrfToken  } = req.body;
 
-    dbUser.run("SELECT * FROM users WHERE user_name=?", [username], (error, row) => {
+    dbUser.run("SELECT * FROM users WHERE userName=?", [username], (error, row) => {
         if(error) throw error;
 
         if(row) {
@@ -23,7 +25,7 @@ signUpRouter.post('/createAccount', (req, res) => {
                     res.status(500).send('Error hashing password');
                     return;
                 }
-                dbUser("INSERT INTO users (user_name, user_password, JsScores, EthScores) VALUES(?,?,?,?)", [username, hashedPassword, 0, 0 ], (error) => {
+                dbUser.run("INSERT INTO users (userName, password) VALUES(?,?)", [username, hashedPassword ], (error) => {
                     if(error){
                         console.log(error);
                         res.status(400).send('error trying to insert new user to the Database');

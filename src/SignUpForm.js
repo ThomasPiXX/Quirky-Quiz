@@ -1,50 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import 'materialize-css/dist/css/materialize.min.css';
 import useCsrfToken from './csrfToken';
+import { Navigate } from 'react-router-dom';
 
 function SignUpForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const Navigate = useNavigate();
-    const {csrfToken, loading } =  useCsrfToken();
+    const { csrfToken, loading } = useCsrfToken();
 
     const handleBackToQuizSelection = () => {
         Navigate('/');
     }
 
-    
-
-    const handleSignUp = async(event) => {
+    const handleSignUp = async (event) => {
         event.preventDefault();
 
-        if(loading) {
+        if (loading) {
             console.error('CSRF token not yet loaded');
             return;
         }
 
-        try{
+        try {
             const response = await axios.post('/api/createAccount', {
                 username,
                 password,
                 confirmPassword,
-            },{
-                withCredentials: true,
+            }, {
                 headers: {
                     'CSRF-Token': csrfToken,
                 },
             });
-            if(response.status === 200) {
-                console.log('login succesful:', response.data.token);
-            }else{
-                console.error('error during login:', response.statusText);
-            }
-        }catch(error){
-            console.error(`Error signUp a new user${error}`);
+
+            console.log('Sign up successful:', response.data);
+        } catch (error) {
+            console.error('Error signing up a new user:', error);
         }
-    }
+    };
 
     return(
         <form onSubmit={handleSignUp} className="container">
