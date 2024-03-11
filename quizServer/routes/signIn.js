@@ -4,17 +4,17 @@ const { passport } = require('../utils/passport');
 
 signInRouter.post('/login', (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
-        if(error) {
-            return next(error);
+        if(error){
+            return res.status(500).json({error: error.message});
         }
         if(!user) {
-            return res.redirect('/createAccount');
+            return res.status(401).json({ error: 'Login failed. Check username and password.'});
         }
         req.login(user, (error) => {
-            if (error) {
-                return next(error);
+            if(error) {
+                return res.status(500).json({error: error.message});
             }
-            return res.redirect('/dashboard');
+            return res.status(200).json({message: 'Logged in successfully'});
         });
     })(req, res, next);
 })

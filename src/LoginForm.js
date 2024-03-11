@@ -7,26 +7,33 @@ import useCsrfToken  from './csrfToken';
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const csrfToken = useCsrfToken(); 
+    const [csrfToken] = useCsrfToken(); 
 
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleBackToQuizSelection = () => {
-        Navigate('/');
+        navigate('/');
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try{
             const response = await axios.post('/login',{
-                'CSRF-Token': csrfToken,
+                
                 username,
                 password,
+            },{
+                headers: {
+                    'CSRF-Token': csrfToken,
+                },
             });
+
             if(response.status === 200) {
                 console.log('login successful:', response.data.token);
+                navigate('/dashboard');
             }else{
                 console.error('error during login:', response.statusText);
+                
             }
 
         }catch(error){
