@@ -6,57 +6,57 @@ const db = new sqlite3.Database('./user.db')
 
 passport.serializeUser((user, done) => {
     console.log('Serialized user:', user);
-    done(null, user.user_name);
+    done(null, user.username);
 });
 
 passport.deserializeUser((username, done) => {
-    db.get('SELECT * FROM users WHERE user_name = ?', [username], (error, row) => {
-        if(error){
+    db.get(`
+        SELECT users.*, userState.ethStat, userState.jsStat, userState.averageStat
+        FROM users
+        LEFT JOIN userState ON users.userID = userState.userID
+        WHERE users.userName = ?`, [username], (error, row) => {
+        if(error) {
+            console.error('Error during deserialization', error);
             return done(error);
         }
-        if(!row){
+        if(!row) {
+            console.log('No user found with username:', username);
             return done(null, false);
         }
+        
         const user = {
-            name: row.userName,
-
-        }
-        db.get('SELECT * WHERE userID JOIN userState WITH users.userID = userStat.userID');
-        if(error) {
-          return done(error);
-        }
-        if(!row){
-          return done(null, false);
-        }
-        const userState = {
-          ethStat:row.eth_stats,
-          jsStat: row.js_stats,
-          average: row.average_stat,
-        }
+            id: row.userID,
+            username: row.userName,
+            ethStat: row.ethStat,
+            jsStat: row.jsStat,
+            averageStat: row.averageStat
+        };
         console.log('Deserialized User:', user);
         return done(null, user);
     });
 });
 
 passport.use(new LocalStrategy((username, password, done) => {
-    db.get("SELECT * FROM users WHERE userName = ?", [username], (error, rows ) => {
+    db.get("SELECT * FROM users WHERE userName = ?", [username], (error, user) => {
         if(error){
             return done(error);
         }
-        if(!rows) {
-            return done(null, false,)
+        if(!user) {
+            return done(null, false, { message: 'Incorrect username.' });
         }
 
-        bcrypt.compare(password, rows.password, (error, isMatch) => {
+        bcrypt.compare(password, user.password, (error, isMatch) => {
             if(error) {
                 return done(error);
             }
             if(!isMatch) {
-                return done(null, false,);
+                return done(null, false,{ message: 'Incorrect password '});
             }
-            })
-    })
-}))
+
+            return done(null, user);
+            });
+    });
+}));
 
 
 module.exports = {

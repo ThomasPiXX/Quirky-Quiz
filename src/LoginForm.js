@@ -7,7 +7,7 @@ import useCsrfToken  from './csrfToken';
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [csrfToken] = useCsrfToken(); 
+    const { csrfToken, loading } = useCsrfToken(); 
 
     const navigate = useNavigate();
 
@@ -17,8 +17,13 @@ function LoginForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (loading) {
+            console.error('CSRF token not yet loaded');
+            return;
+        }
         try{
-            const response = await axios.post('/login',{
+            const response = await axios.post('/api/login',{
                 
                 username,
                 password,
@@ -33,6 +38,7 @@ function LoginForm() {
                 navigate('/dashboard');
             }else{
                 console.error('error during login:', response.statusText);
+                navigate('/SignUpForm');
                 
             }
 
@@ -47,7 +53,7 @@ return (
         <div className='row'>
             <div className="input-field col s12">
                 <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlFor='username'Username>Username</label>
+                <label htmlFor='username'>Username</label>
             </div>
         </div>
         <div className='row'>
