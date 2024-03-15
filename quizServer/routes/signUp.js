@@ -30,7 +30,21 @@ signUpRouter.post('/createAccount', (req, res) => {
                         console.log(error);
                         res.status(400).send('error trying to insert new user to the Database');
                     }else{
-                        console.log("User account");
+                        const userID = this.lastID;
+                        const defaultStats = {
+                            eth_stats: 0,
+                            js_stats: 0,
+                            average_stat: 0,
+                        };
+
+                        dbUser.run ('INSERT INTO userStat (userID, eth_stats, js_stats, average_stat) VALUES ( ?, ?, ?, ?)',[userID, defaultStats.eth_stats, defaultStats.js_stats, defaultStats.average_stat], (error) => {
+                            if(error) {
+                                console.error('Error creating default', error);
+                            } else {
+                                console.log('Default userStat created succesfully');
+                            }
+                        });
+                        console.log("User account created");
                         res.redirect('./login');
                     }
                 });

@@ -18,22 +18,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(passport.initialize());
-
-
-
-
 app.use(session({
     secret: cookieHash(),
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie:{secure: 'auto', httpOnly: true }
 }));
 
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
 const corsOptions = {
-    origin: 'http://localhost:3000', // Your frontend origin
-    credentials: true, // Essential for cookies and authentication
+    origin: 'http://localhost:3000', 
+    credentials: true,
 };
 app.use(cors(corsOptions));
 

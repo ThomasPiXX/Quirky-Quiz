@@ -7,6 +7,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css';
 import './axiosConfig';
 
+
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
   var instances = M.Sidenav.init(elems);

@@ -6,30 +6,31 @@ const db = new sqlite3.Database('./user.db')
 
 passport.serializeUser((user, done) => {
     console.log('Serialized user:', user);
-    done(null, user.username);
+    done(null, user.userID);
 });
 
-passport.deserializeUser((username, done) => {
+passport.deserializeUser((id, done) => {
+    console.log('deserialize part is hit ');
     db.get(`
-        SELECT users.*, userState.ethStat, userState.jsStat, userState.averageStat
+        SELECT users.*, userStat.eth_stats, userStat.js_stats, userStat.average_stat
         FROM users
-        LEFT JOIN userState ON users.userID = userState.userID
-        WHERE users.userName = ?`, [username], (error, row) => {
+        LEFT JOIN userStat ON users.userID = userStat.userID
+        WHERE users.userName = ?`, [id], (error, row) => {
         if(error) {
             console.error('Error during deserialization', error);
             return done(error);
         }
         if(!row) {
-            console.log('No user found with username:', username);
+            console.log('No user found with username:', id);
             return done(null, false);
         }
         
         const user = {
             id: row.userID,
             username: row.userName,
-            ethStat: row.ethStat,
-            jsStat: row.jsStat,
-            averageStat: row.averageStat
+            ethStat: row.eth_stats,
+            jsStat: row.js_stats,
+            averageStat: row.average_stat,
         };
         console.log('Deserialized User:', user);
         return done(null, user);
@@ -53,7 +54,7 @@ passport.use(new LocalStrategy((username, password, done) => {
                 return done(null, false,{ message: 'Incorrect password '});
             }
 
-            return done(null, user);
+            done(null, user);
             });
     });
 }));
@@ -61,4 +62,4 @@ passport.use(new LocalStrategy((username, password, done) => {
 
 module.exports = {
     passport,
-}
+};
