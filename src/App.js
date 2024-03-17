@@ -5,6 +5,8 @@ import Quiz from './Quiz';
 import QuizEth from './QuizEth';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
+import UserBoard from './UserBoard';
+
 
 const quizzes = [
   { id: 1, type: 'Quiz', label: 'JavaScript' },
@@ -30,12 +32,13 @@ return (
             <QuizEth/>
           ) : quiz.type === 'LoginForm' ? (
             <LoginForm/> 
-          ) : quiz.type === 'SignUpForm' ?(
+          ) : quiz.type === 'SignUpForm' ? (
             <SignUpForm/>
           ) : null
         }
         />
       ))}
+      <Route path="/UserBoard" element = {<UserBoard/>}></Route>
     </Routes>
   </Router>
 );

@@ -15,13 +15,13 @@ passport.deserializeUser((id, done) => {
         SELECT users.*, userStat.eth_stats, userStat.js_stats, userStat.average_stat
         FROM users
         LEFT JOIN userStat ON users.userID = userStat.userID
-        WHERE users.userName = ?`, [id], (error, row) => {
+        WHERE users.userID = ?`, [id], (error, row) => {
         if(error) {
             console.error('Error during deserialization', error);
             return done(error);
         }
         if(!row) {
-            console.log('No user found with username:', id);
+            console.log('No user found with userID:', id);
             return done(null, false);
         }
         

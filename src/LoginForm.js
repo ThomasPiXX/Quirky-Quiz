@@ -35,7 +35,7 @@ function LoginForm() {
 
             if(response.status === 200) {
                 console.log('login successful:', response.data.token);
-                navigate('/dashboard');
+                navigate('/UserBoard');
             }else{
                 console.error('error during login:', response.statusText);
                 navigate('/SignUpForm');
