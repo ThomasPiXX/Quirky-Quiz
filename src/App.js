@@ -39,6 +39,9 @@ return (
         />
       ))}
       <Route path="/UserBoard" element = {<UserBoard/>}></Route>
+      <Route path="/LoginForm" element = {<LoginForm/>}></Route>
+      <Route path="/Quiz" element = {<Quiz/>}></Route>
+      <Route path="/QuizEth" element = {<QuizEth/>}></Route>
     </Routes>
   </Router>
 );

@@ -17,12 +17,13 @@ const UserBoard =  () => {
     const [username, setUsername] = useState('');
     const [ethStat, setEthStat] = useState('');
     const [jsStat, setJsStat] = useState('');
+    const [averageStat, setAverageStats] = useState('');
     const csrfToken = useCsrfToken();
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        axios.get('/api/UserState/', {
+        axios.get('/api/UserStats/', {
             headers: {
                 'CSRF-Token': csrfToken,
             },
@@ -30,6 +31,7 @@ const UserBoard =  () => {
             setUsername(response.data.username);
             setEthStat(response.data.ethStat);
             setJsStat(response.data.jsStat);
+            setAverageStats(response.data.averageStat);
         }).catch((error) => {
             console.error("Error fetching user data:", error);
         });
@@ -37,7 +39,7 @@ const UserBoard =  () => {
 
 const handleLogout = () => {
     console.log("logging out...");
-    navigate('/login');
+    navigate('/LoginForm');
 };
 
 
@@ -51,10 +53,13 @@ return (
         <p>Welcome, {username}</p>
         <p>JavaScript Stats: {jsStat}</p>
         <p>Ethereum Stats: {ethStat}</p>
+        <p>Average Score: {averageStat}</p>
     {quizzes.map((quiz) => {
-        <button key={quiz.id} onClick={() => handleQuizSelection(quiz.type)}>
+        return (
+        <button key={quiz.id} onClick={() => handleQuizSelection(quiz.types)}>
             {quiz.label}
         </button>
+        );
     })}
 
     <button onClick={handleLogout}> Logout</button>
