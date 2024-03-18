@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
+import { useCsrfToken } from './csrfToken';
 
 const Quiz = () => {
-  const [questions, setQuestions] = useState(null); // Initialize to null
+  const [questions, setQuestions] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [previousQuestion, setPreviousQuestion] = useState(0);
@@ -12,6 +14,11 @@ const Quiz = () => {
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
+  const { isAuthenticated } = useAuth();
+  const [ ethStat, setEthStat] = useState('');
+  const [ jsStat, setJsStat] = useState('');
+  const [averageStat, setAverageStats] = useState('');
+  const csrfToken = useCsrfToken();
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -92,7 +99,32 @@ const Quiz = () => {
     };
 
   const handleBackToQuizSelection = () => {
+    if(isAuthenticated && quizCompleted === true){
+      const previousScore = axios.get('/api/UserStats', {
+        headers: {
+          'CSRF-Token': csrfToken,
+        },
+      }).then((response) => {
+        setEthStat(response.data.ethStat);
+        setJsStat(response.data.jsStat);
+        setAverageStats(response.data.averageStat);
+      }).catch((error) => {
+        console.error("error fetching stats on JS Quiz", error);
+      });
+      const newScore = score / 100;
+      const newAverage = newScore + averageStat / 100;
+
+      const submitStat = axios.post('/api/submitScores', {
+         newScore,
+         newAverage,
+      },{
+      headers:{
+        'CSRF-Token': csrfToken,
+      }});
+
+    }else{
     Navigate('/');
+    }
   };
 
   return (
