@@ -98,33 +98,41 @@ const Quiz = () => {
     setQuizCompleted(false);
     };
 
-  const handleBackToQuizSelection = () => {
+  const handleBackToQuizSelection =  async () => {
     if(isAuthenticated && quizCompleted === true){
-      const previousScore = axios.get('/api/UserStats', {
-        headers: {
+      try{
+        const response = await axios.get('/api/UserStats', {
+          headers:{
           'CSRF-Token': csrfToken,
         },
-      }).then((response) => {
-        setEthStat(response.data.ethStat);
-        setJsStat(response.data.jsStat);
-        setAverageStats(response.data.averageStat);
-      }).catch((error) => {
-        console.error("error fetching stats on JS Quiz", error);
-      });
-      const newScore = score / 100;
-      const newAverage = newScore + averageStat / 100;
+        });
+        
+        const { ethStat, jsStat, averageStat } = response.data;
 
-      const submitStat = axios.post('/api/submitScores', {
-         newScore,
-         newAverage,
-      },{
-      headers:{
-        'CSRF-Token': csrfToken,
-      }});
+        setEthStat(ethStat);
+        setJsStat(jsStat);
+        setAverageStats(averageStat);
 
+        const newScore = score / questions.length * 100;
+        const newAverage = ((newScore + parse.float(jsStat) + parseFloat(averageStat)) / 3).toFixed(2); 
+
+        await axios.post('/api/submitScoresJS', {
+          newScore,
+          newAverage,
+        }, {
+          headers: {
+            'CSRF-Token': csrfToken,
+          }
+        });
+
+        Navigate('/UserBoard');
+      }catch(error){
+        console.error(`Error while handlebackToQuizJS:${error}`);
+      }
     }else{
-    Navigate('/');
+      Navigate('/');
     }
+
   };
 
   return (

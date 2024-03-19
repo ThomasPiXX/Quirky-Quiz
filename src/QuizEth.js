@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
+import { useCsrfToken } from './csrfToken';
 
 const QuizEth = () => {
   const [questions, setQuestions] = useState(null); // Initialize to null
@@ -12,6 +14,11 @@ const QuizEth = () => {
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
+  const { isAuthenticated } = useAuth();
+  const { csrfToken } = useCsrfToken();
+  const { ethStat, setEthStat} = useState('');
+  const { jsStat, setJsStat} = useState('');
+  const { averageStat, setAverageStat} = useState('');
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -88,8 +95,39 @@ const QuizEth = () => {
     setQuizCompleted(false);
   }
 
-  const handleBackToQuizSelection = () => {
-    Navigate('/');
+  const handleBackToQuizSelection = async () => {
+
+    if( isAuthenticated && quizCompleted === true){
+      try{
+        const response = await axios.get('/api/UserStats', {
+          headers:{
+            'CSRF-Token': csrfToken,
+          },
+        });
+        
+        const {ethStat, jsStat, averageStat } = response.data;
+
+        setEthStat(ethStat);
+        setJsStat(jsStat);
+        setAverageStat(averageStat);
+
+        const newScore = score / questions.length + 100;
+        const newAverage = ((newScore + parse.float(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
+
+        await axios.post('/api/submitScoresEth', {
+          newScore,
+          newAverage,
+        }, {
+          headers: {
+            'CSRF-Token': csrfToken,
+          }
+        });
+        Navigate('/UserBoard');
+      }catch(error){
+        console.error(`Error while handleBackToQuizEth:${error}`);      }
+    }else{
+      Navigate('/');
+    }
   };
 
   return (
