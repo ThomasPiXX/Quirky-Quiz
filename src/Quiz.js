@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
-import { useCsrfToken } from './csrfToken';
+import  useAuth  from './AuthContext';
+import useCsrfToken from './csrfToken';
 
 const Quiz = () => {
   const [questions, setQuestions] = useState(null);
@@ -14,11 +14,11 @@ const Quiz = () => {
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
-  const { isAuthenticated } = useAuth();
+  const {isAuthenticated}  = useAuth();
   const [ ethStat, setEthStat] = useState('');
   const [ jsStat, setJsStat] = useState('');
   const [averageStat, setAverageStats] = useState('');
-  const csrfToken = useCsrfToken();
+  const {csrfToken} = useCsrfToken();
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -114,7 +114,7 @@ const Quiz = () => {
         setAverageStats(averageStat);
 
         const newScore = score / questions.length * 100;
-        const newAverage = ((newScore + parse.float(jsStat) + parseFloat(averageStat)) / 3).toFixed(2); 
+        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2); 
 
         await axios.post('/api/submitScoresJS', {
           newScore,

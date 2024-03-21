@@ -49,7 +49,7 @@ app.use('/api', signInRouter);
 app.use('/api', csrfTokenRouter);
 app.use('/api', userStatRouter);
 app.use('/api', SubmitScoresJSRouter);
-appu.use('/api', SubmitScoreEthRouter);
+app.use('/api', SubmitScoreEthRouter);
 app.use('/api', AuthCheckRouter);
 
 

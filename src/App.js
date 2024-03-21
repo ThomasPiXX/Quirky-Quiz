@@ -6,6 +6,7 @@ import QuizEth from './QuizEth';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import UserBoard from './UserBoard';
+import { AuthProvider } from './AuthContext';
 
 
 const quizzes = [
@@ -17,33 +18,37 @@ const quizzes = [
 
 function App() {
 return (
-  <Router>
-    <Routes>
+  <AuthProvider>
+    <Router>
+      <Routes>
 
-      <Route path="/" element={<QuizSelection quizzes={quizzes} />} />
-      {quizzes.map((quiz) => (
-        <Route
-        key={quiz.id}
-        path ={`/quiz/${quiz.type.toLowerCase()}/:quizId`}
-        element={
-          quiz.type === 'Quiz' ?(
-            <Quiz />
-          ) : quiz.type === 'QuizEth' ? (
-            <QuizEth/>
-          ) : quiz.type === 'LoginForm' ? (
-            <LoginForm/> 
-          ) : quiz.type === 'SignUpForm' ? (
-            <SignUpForm/>
-          ) : null
-        }
-        />
-      ))}
-      <Route path="/UserBoard" element = {<UserBoard/>}></Route>
-      <Route path="/LoginForm" element = {<LoginForm/>}></Route>
-      <Route path="/Quiz" element = {<Quiz/>}></Route>
-      <Route path="/QuizEth" element = {<QuizEth/>}></Route>
-    </Routes>
-  </Router>
+        <Route path="/" element={<QuizSelection quizzes={quizzes} />} />
+        {quizzes.map((quiz) => (
+          <Route
+          key={quiz.id}
+          path ={`/quiz/${quiz.type.toLowerCase()}/:quizId`}
+          element={
+            quiz.type === 'Quiz' ?(
+              <Quiz />
+            ) : quiz.type === 'QuizEth' ? (
+              <QuizEth/>
+            ) : quiz.type === 'LoginForm' ? (
+              <LoginForm/> 
+            ) : quiz.type === 'SignUpForm' ? (
+              <SignUpForm/>
+            ) : null
+          }
+          />
+        ))}
+        
+        <Route path="/UserBoard" element = {<UserBoard/>}></Route>
+        <Route path="/LoginForm" element = {<LoginForm/>}></Route>
+        <Route path="/Quiz" element = {<Quiz/>}></Route>
+        <Route path="/QuizEth" element = {<QuizEth/>}></Route>
+        
+      </Routes>
+    </Router>
+    </AuthProvider>
 );
 }
 

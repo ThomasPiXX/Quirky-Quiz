@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
-import { useCsrfToken } from './csrfToken';
+import  useAuth  from './AuthContext';
+import useCsrfToken from './csrfToken';
 
 const QuizEth = () => {
   const [questions, setQuestions] = useState(null); // Initialize to null
@@ -112,7 +112,7 @@ const QuizEth = () => {
         setAverageStat(averageStat);
 
         const newScore = score / questions.length + 100;
-        const newAverage = ((newScore + parse.float(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
+        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
 
         await axios.post('/api/submitScoresEth', {
           newScore,
