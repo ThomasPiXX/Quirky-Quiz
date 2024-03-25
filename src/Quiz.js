@@ -30,6 +30,10 @@ const Quiz = () => {
   };
 
   useEffect(() => {
+    console.log('Quiz page mounted. Session isAuthenticated:', isAuthenticated);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     axios.get('/api/jsquiz')
       .then((response) => {
         const dataWithParsedOptions = response.data.map(question => {
@@ -101,11 +105,7 @@ const Quiz = () => {
   const handleBackToQuizSelection =  async () => {
     if(isAuthenticated && quizCompleted === true){
       try{
-        const response = await axios.get('/api/UserStats', {
-          headers:{
-          'CSRF-Token': csrfToken,
-        },
-        });
+        const response = await axios.get('/api/UserStats');
         
         const { ethStat, jsStat, averageStat } = response.data;
 
