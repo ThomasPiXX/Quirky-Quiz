@@ -120,6 +120,7 @@ const Quiz = () => {
           newScore,
           newAverage,
         }, {
+          withCredentials: true,
           headers: {
             'CSRF-Token': csrfToken,
           }

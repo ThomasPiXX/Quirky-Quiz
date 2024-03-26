@@ -2,12 +2,16 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import 'materialize-css/dist/css/materialize.min.css';
 import { useNavigate } from 'react-router-dom';
+import useAuth from './AuthContext';
 import useCsrfToken  from './csrfToken';
+
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { csrfToken, loading } = useCsrfToken(); 
+    const { csrfToken, loading } = useCsrfToken();
+    const { setIsAuthenticated } = useAuth();
+
 
     const navigate = useNavigate();
 
@@ -34,7 +38,9 @@ function LoginForm() {
             });
 
             if(response.status === 200) {
-                console.log('login successful:', response.data.token);
+                console.log('login successful:', response.data);
+                setIsAuthenticated(true);
+                localStorage.setItem('isAuthenticated:', 'true');
                 navigate('/UserBoard');
             }else{
                 console.error('error during login:', response.statusText);

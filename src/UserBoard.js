@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Quiz from './Quiz';
 import QuizEth from './QuizEth';
 import useCsrfToken from './csrfToken';
+import useAuth from './AuthContext';
 
 const quizzes = [
     {id: 1, types: 'Quiz', label: 'JavaScript', component: Quiz },
@@ -20,9 +21,11 @@ const UserBoard =  () => {
     const [averageStat, setAverageStats] = useState('');
     const csrfToken = useCsrfToken();
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
 
     useEffect(() => {
+        if( isAuthenticated ){
         axios.get('/api/UserStats/', {
             headers: {
                 'CSRF-Token': csrfToken,
@@ -35,7 +38,10 @@ const UserBoard =  () => {
         }).catch((error) => {
             console.error("Error fetching user data:", error);
         });
-    }, [csrfToken]);
+    }else{
+        navigate('/login');
+    }
+    }, [isAuthenticated,csrfToken, navigate]);
 
 const handleLogout = () => {
     console.log("logging out...");

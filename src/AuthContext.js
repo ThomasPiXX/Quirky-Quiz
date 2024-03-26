@@ -11,6 +11,11 @@ export const AuthProvider = ({ children }) => {
     const { csrfToken} = useCsrfToken(); 
 
     useEffect(() => {
+
+        const storedAuth = localStorage.getItem('isAuthenticated');
+        if(storedAuth){
+            setIsAuthenticated(JSON.parse(storedAuth));
+        }else{
             axios.get('/api/authCheck',{
                 headers:{
                     'CSRF-Token': csrfToken,
@@ -23,6 +28,7 @@ export const AuthProvider = ({ children }) => {
                 console.error('Error checking authentication status: ', error);
 
             });
+        }
     }, []);
 
     return(
