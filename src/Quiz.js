@@ -14,11 +14,13 @@ const Quiz = () => {
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
-  const {isAuthenticated}  = useAuth();
+  const {isAuthenticated, updateUserStats, userStats}  = useAuth();
   const [ ethStat, setEthStat] = useState('');
   const [ jsStat, setJsStat] = useState('');
   const [averageStat, setAverageStats] = useState('');
   const {csrfToken} = useCsrfToken();
+
+  
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -29,10 +31,8 @@ const Quiz = () => {
     return shuffledArray;
   };
 
-  useEffect(() => {
-    console.log('Quiz page mounted. Session isAuthenticated:', isAuthenticated);
-  }, [isAuthenticated]);
 
+  
   useEffect(() => {
     axios.get('/api/jsquiz')
       .then((response) => {
@@ -105,13 +105,12 @@ const Quiz = () => {
   const handleBackToQuizSelection =  async () => {
     if(isAuthenticated && quizCompleted === true){
       try{
-        const response = await axios.get('/api/UserStats');
         
-        const { ethStat, jsStat, averageStat } = response.data;
+        const {ethStat, jsStat, averageStat} = userStats;        
 
-        setEthStat(ethStat);
-        setJsStat(jsStat);
-        setAverageStats(averageStat);
+        if(!(ethStat, jsStat, averageStat)) {
+          console.error("User stats are not available");
+        }
 
         const newScore = score / questions.length * 100;
         const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2); 
@@ -125,6 +124,8 @@ const Quiz = () => {
             'CSRF-Token': csrfToken,
           }
         });
+        
+        await updateUserStats();
 
         Navigate('/UserBoard');
       }catch(error){

@@ -9,6 +9,7 @@ const { ethRoute } = require('./routes/EthQuiz');
 const { signUpRouter } = require('./routes/signUp');
 const { signInRouter } = require('./routes/signIn');
 const { jsRoute } = require('./routes/JsQuiz');
+const { LogoutRouter } = require('./routes/logout');
 const { passport } = require('./utils/passport');
 const app = express();
 const port = 3001;
@@ -26,7 +27,7 @@ app.use(session({
     secret: cookieHash(),
     resave: false,
     saveUninitialized: true,
-    cookie:{secure: 'auto', httpOnly: true }
+    cookie:{secure: 'auto' }
 }));
 
 app.use(bodyParser.json());
@@ -51,6 +52,7 @@ app.use('/api', userStatRouter);
 app.use('/api', SubmitScoresJSRouter);
 app.use('/api', SubmitScoreEthRouter);
 app.use('/api', AuthCheckRouter);
+app.use('/api', LogoutRouter);
 
 
 
