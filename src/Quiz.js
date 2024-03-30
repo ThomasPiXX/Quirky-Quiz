@@ -18,6 +18,7 @@ const Quiz = () => {
   const [ ethStat, setEthStat] = useState('');
   const [ jsStat, setJsStat] = useState('');
   const [averageStat, setAverageStats] = useState('');
+  const [username, setUsername] = useState('');
   const {csrfToken} = useCsrfToken();
 
   
@@ -105,15 +106,15 @@ const Quiz = () => {
   const handleBackToQuizSelection =  async () => {
     if(isAuthenticated && quizCompleted === true){
       try{
-        
-        const {ethStat, jsStat, averageStat} = userStats;        
+        await updateUserStats();
 
-        if(!(ethStat, jsStat, averageStat)) {
-          console.error("User stats are not available");
-        }
+        const {ethStat, jsStat, averageStat} = userStats
+
+
 
         const newScore = score / questions.length * 100;
-        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2); 
+        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
+        console.log(newAverage); 
 
         await axios.post('/api/submitScoresJS', {
           newScore,

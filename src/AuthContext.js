@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
         const response = await axios.get('/api/UserStats', { withCredentials: true});
         if(response.status === 200) {
             setUserStats(response.data);
+            console.log(response.data);
         }else{
             console.error('Failed to fetch user stats');
         }

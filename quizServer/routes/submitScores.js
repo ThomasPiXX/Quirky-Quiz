@@ -7,11 +7,12 @@ const statDb = new sqlite3.Database('./user.db');
 
 SubmitScoresJSRouter.post('/submitScoresJS', (req, res) =>{
     
-    if(!req.user || req.user.id){
-        return res.status(401).send('User is not authenticated');
-    }
-    
+    console.log('submit js score route hit');
+    const user = req.user;
     const userId = req.user.id;
+    console.log('User:', userId);
+
+    
     const { newScore, newAverage,} = req.body;
 
     statDb.run('UPDATE userStat SET js_stats = ? , average_stat = ? WHERE userID = ?',[newScore, newAverage, userId], (error) => {
