@@ -27,7 +27,7 @@ app.use(session({
     secret: cookieHash(),
     resave: false,
     saveUninitialized: true,
-    cookie:{secure: 'auto' }
+    cookie:{secure: 'auto', httpOnly: 'true', sameSite: 'strict' }
 }));
 
 app.use(bodyParser.json());

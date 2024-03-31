@@ -8,7 +8,6 @@ const statDb = new sqlite3.Database('./user.db');
 SubmitScoresJSRouter.post('/submitScoresJS', (req, res) =>{
     
     console.log('submit js score route hit');
-    const user = req.user;
     const userId = req.user.id;
     console.log('User:', userId);
 
@@ -27,10 +26,9 @@ SubmitScoresJSRouter.post('/submitScoresJS', (req, res) =>{
 
 SubmitScoreEthRouter.post('/submitScoresEth', (req, res) => {
 
-    if(!req.user || req.user.id){
-        return  res.status(401).send('User not authenticated');
-    }
+    console.log('submitScoreEth route hit');
         const userId = req.user.id;
+        console.log('User:', userId);
         const { newScore, newAverage } = req.body;
         
         statDb.run('UPDATE userStat SET eth_stats = ?, average_stat = ? WHERE userID = ?', [newScore, newAverage, userId], (error) => {
@@ -39,7 +37,7 @@ SubmitScoreEthRouter.post('/submitScoresEth', (req, res) => {
                 res.status(500).send('An error occured whil updating Eth stats');
                 return;
             }
-            res.sendStatus({message: 'Eth scores  successfully updated :)'});
+            res.send({message: 'Eth scores  successfully updated :)'});
         });
 })
 

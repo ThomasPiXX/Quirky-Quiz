@@ -14,11 +14,10 @@ const QuizEth = () => {
   const Navigate = useNavigate();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
-  const { isAuthenticated } = useAuth();
   const { csrfToken } = useCsrfToken();
-  const { ethStat, setEthStat} = useState('');
-  const { jsStat, setJsStat} = useState('');
-  const { averageStat, setAverageStat} = useState('');
+  const { isAuthenticated, updateUserStats, userStats } = useAuth();
+  
+  
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -99,20 +98,15 @@ const QuizEth = () => {
 
     if( isAuthenticated && quizCompleted === true){
       try{
-        const response = await axios.get('/api/UserStats', {
-          headers:{
-            'CSRF-Token': csrfToken,
-          },
-        });
+        await updateUserStats();
         
-        const {ethStat, jsStat, averageStat } = response.data;
+        const {jsStat} = userStats;
 
-        setEthStat(ethStat);
-        setJsStat(jsStat);
-        setAverageStat(averageStat);
+;
 
-        const newScore = score / questions.length + 100;
-        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
+        const newScore = (score / questions.length * 100).toFixed();
+        const newAverage = ((parseFloat(newScore)  + parseFloat(jsStat)) / 2).toFixed(2);
+        console.log(newAverage);
 
         await axios.post('/api/submitScoresEth', {
           newScore,

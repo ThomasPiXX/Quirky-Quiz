@@ -3,14 +3,14 @@ const LogoutRouter = express.Router();
 
 
 
-LogoutRouter.get('/logout', (req, res) => {
-    req.logout((err) => {
-        if(err){
-            console.log(err);
-        }
+LogoutRouter.post('/logout', (req, res) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        // If logout was successful, respond with a success message
+        res.status(200).json({ message: "Logout successful" });
     });
-    console.log(req.user);
 });
+
 
 
 module.exports = {

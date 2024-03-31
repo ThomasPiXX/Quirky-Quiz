@@ -15,10 +15,6 @@ const Quiz = () => {
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [customAlertMessage, setCustomAlertMessage] = useState('');
   const {isAuthenticated, updateUserStats, userStats}  = useAuth();
-  const [ ethStat, setEthStat] = useState('');
-  const [ jsStat, setJsStat] = useState('');
-  const [averageStat, setAverageStats] = useState('');
-  const [username, setUsername] = useState('');
   const {csrfToken} = useCsrfToken();
 
   
@@ -108,13 +104,14 @@ const Quiz = () => {
       try{
         await updateUserStats();
 
-        const {ethStat, jsStat, averageStat} = userStats
+        const {ethStat} = userStats
 
 
 
-        const newScore = score / questions.length * 100;
-        const newAverage = ((newScore + parseFloat(jsStat) + parseFloat(averageStat)) / 3).toFixed(2);
-        console.log(newAverage); 
+        const newScore = (score / questions.length * 100).toFixed(0);
+        const newAverage = ((parseFloat(newScore) + parseFloat(ethStat)) / 2).toFixed(2);
+        console.log(newAverage);
+        console.log(newScore);
 
         await axios.post('/api/submitScoresJS', {
           newScore,
