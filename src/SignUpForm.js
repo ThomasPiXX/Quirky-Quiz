@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import useCsrfToken from './csrfToken';
-import { Navigate } from 'react-router-dom';
+import {useNavigate}  from 'react-router-dom';
 
 function SignUpForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
     const { csrfToken, loading } = useCsrfToken();
+    const navigate = useNavigate();
 
     const handleBackToQuizSelection = () => {
-        Navigate('/');
+        navigate('/');
     }
 
     const handleSignUp = async (event) => {
         event.preventDefault();
+        setErrorPassword('');
 
         if (loading) {
             console.error('CSRF token not yet loaded');
+            return;
+        }
+
+        if(password !== confirmPassword) {
+            setErrorPassword('Password do not match');
             return;
         }
 
@@ -33,6 +41,7 @@ function SignUpForm() {
             });
 
             console.log('Sign up successful:', response.data);
+            navigate('/LoginForm');
         } catch (error) {
             console.error('Error signing up a new user:', error);
         }
@@ -58,8 +67,13 @@ function SignUpForm() {
                     <label htmlFor='confirmPassword'>ConfirmPassword</label>
                 </div>
             </div>
+            {errorPassword && (
+                <div className='row'>
+                    <div className='error' style={{color: 'red'}}> {errorPassword}</div>
+                </div>
+            )}
             <div className='row'>
-                <button className ='btn waves-effect waves-light' type="submit" disable={loading}>SignUp</button>
+                <button className ='btn waves-effect waves-light' type="submit" disabled={loading}>SignUp</button>
             </div>
             <div className='row'>
                 <button className= 'btn waves-effect waves-light' type="submit" onClick={handleBackToQuizSelection}>Home</button>

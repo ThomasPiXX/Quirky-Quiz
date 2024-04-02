@@ -55,9 +55,9 @@ return (
     <div className='container'>
         <h4>dashBoard</h4>
         <p>Welcome, {username}</p>
-        <p>JavaScript Stats: {jsStat}</p>
-        <p>Ethereum Stats: {ethStat}</p>
-        <p>Average Score: {averageStat}</p>
+        <p>JavaScript Stats: {jsStat}%</p>
+        <p>Ethereum Stats: {ethStat}%</p>
+        <p>Average Score: {averageStat}%</p>
     {quizzes.map((quiz) => {
         return (
         <button key={quiz.id} onClick={() => handleQuizSelection(quiz.types)}>

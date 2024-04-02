@@ -7,8 +7,6 @@ const dbUser = new sqlite3.Database(dbPath);
 const { passwordHasher }= require('../utils/passwordHasher');
 
 signUpRouter.post('/createAccount', (req, res) => {
-    console.log(req.body);
-    console.log(req.headers);
     
     const { username, password, csrfToken  } = req.body;
 
@@ -45,7 +43,7 @@ signUpRouter.post('/createAccount', (req, res) => {
                             }
                         });
                         console.log("User account created");
-                        res.redirect('./login');
+                        res.status(201).json({ message: "User acount created" });
                     }
                 });
             });
