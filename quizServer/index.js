@@ -10,6 +10,7 @@ const { signUpRouter } = require('./routes/signUp');
 const { signInRouter } = require('./routes/signIn');
 const { jsRoute } = require('./routes/JsQuiz');
 const { LogoutRouter } = require('./routes/logout');
+const { AvaxQuizRouter } = require('./routes/AvaxQuiz');
 const { passport } = require('./utils/passport');
 const app = express();
 const port = 3001;
@@ -45,6 +46,7 @@ app.use(csrfProtection);
 //routes
 app.use('/api', ethRoute);
 app.use('/api', jsRoute);
+app.use('/api', AvaxQuizRouter);
 app.use('/api', signUpRouter);
 app.use('/api', signInRouter);
 app.use('/api', csrfTokenRouter);

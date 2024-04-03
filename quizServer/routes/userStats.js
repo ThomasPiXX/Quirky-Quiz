@@ -4,8 +4,6 @@ const userStatRouter = express.Router();
 
 
 userStatRouter.get('/UserStats', (req, res) => {
-    console.log('UserStats route got hit');
-
     if(req.isAuthenticated()){
     const { username, ethStat, jsStat, averageStat } = req.user;
     res.json({

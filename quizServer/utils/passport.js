@@ -5,12 +5,11 @@ const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./user.db')
 
 passport.serializeUser((user, done) => {
-    console.log('Serialized user:', user);
+    console.log('User Serialized');
     done(null, user.userID);
 });
 
 passport.deserializeUser((id, done) => {
-    console.log('deserialize part is hit ');
     db.get(`
         SELECT users.*, userStat.eth_stats, userStat.js_stats, userStat.average_stat
         FROM users
@@ -21,7 +20,7 @@ passport.deserializeUser((id, done) => {
             return done(error);
         }
         if(!row) {
-            console.log('No user found with userID:', id);
+            console.log('No user found');
             return done(null, false);
         }
         
@@ -32,7 +31,7 @@ passport.deserializeUser((id, done) => {
             jsStat: row.js_stats,
             averageStat: row.average_stat,
         };
-        console.log('Deserialized User:', user);
+        console.log('User Deserialized');
         return done(null, user);
     });
 });
@@ -43,7 +42,7 @@ passport.use(new LocalStrategy((username, password, done) => {
             return done(error);
         }
         if(!user) {
-            return done(null, false, { message: 'Incorrect username.' });
+            return done(null, false, { message: 'Incorrect Credential' });
         }
 
         bcrypt.compare(password, user.password, (error, isMatch) => {
@@ -51,7 +50,7 @@ passport.use(new LocalStrategy((username, password, done) => {
                 return done(error);
             }
             if(!isMatch) {
-                return done(null, false,{ message: 'Incorrect password '});
+                return done(null, false,{ message: 'Incorrect Credential '});
             }
 
             done(null, user);

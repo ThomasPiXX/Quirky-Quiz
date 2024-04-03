@@ -9,7 +9,6 @@ SubmitScoresJSRouter.post('/submitScoresJS', (req, res) =>{
     
     console.log('submit js score route hit');
     const userId = req.user.id;
-    console.log('User:', userId);
 
     
     const { newScore, newAverage,} = req.body;
@@ -28,7 +27,6 @@ SubmitScoreEthRouter.post('/submitScoresEth', (req, res) => {
 
     console.log('submitScoreEth route hit');
         const userId = req.user.id;
-        console.log('User:', userId);
         const { newScore, newAverage } = req.body;
         
         statDb.run('UPDATE userStat SET eth_stats = ?, average_stat = ? WHERE userID = ?', [newScore, newAverage, userId], (error) => {
