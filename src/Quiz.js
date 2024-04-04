@@ -49,7 +49,7 @@ const Quiz = () => {
   }, []);
 
   if (!questions) { 
-    return <div>Loading quiz...</div>;
+    return <div>Loading Quizz...</div>;
   }
 
   const handleAnswerClick = (selectedAnswer) => {

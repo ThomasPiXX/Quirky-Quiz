@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 import QuizSelection from './QuizSelection';
 import Quiz from './Quiz';
 import QuizEth from './QuizEth';
+import QuizAvax from './QuizAvax';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import UserBoard from './UserBoard';
@@ -14,6 +15,7 @@ const quizzes = [
   { id: 2, type: 'QuizEth', label: 'Ethereum' },
   { id: 3, type: 'LoginForm', label: 'Login'},
   { id: 4, type: 'SignUpForm', label: 'SingUp'},
+  { id: 5, type: 'QuizAvax', label: 'Avax'},
 ];
 
 function App() {
@@ -36,15 +38,19 @@ return (
               <LoginForm/> 
             ) : quiz.type === 'SignUpForm' ? (
               <SignUpForm/>
+            ) : quiz.type === 'QuizAvax' ? (
+              <QuizAvac/>
             ) : null
           }
           />
         ))}
         
+
         <Route path="/UserBoard" element = {<UserBoard/>}></Route>
         <Route path="/LoginForm" element = {<LoginForm/>}></Route>
         <Route path="/Quiz" element = {<Quiz/>}></Route>
         <Route path="/QuizEth" element = {<QuizEth/>}></Route>
+        <Route path="/QuizAvac"  element = {<QuizAvax/>}></Route>
         
       </Routes>
     </Router>

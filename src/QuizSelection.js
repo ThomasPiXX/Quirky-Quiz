@@ -53,6 +53,14 @@ function QuizSelection({quizzes}) {
           </button>
         </div>
       </div>
+      <div className='row'>
+        <div className='col offset-s4'>
+          <button className = "btn waves-effet waves-light"
+          onClick={() => handleButtonClick(quizzes[4].id, quizzes[4].type)}>
+            {quizzes[4].label}
+          </button>
+        </div>
+      </div>
     </div>
   );
 
