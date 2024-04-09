@@ -16,7 +16,7 @@ const initialQuestions = [
 ]
 
 initialQuestions.forEach(question => {
-    const { question: qText, options, correctAnswer } = question;
+    const { qText, options, correctAnswer } = question;
 
     // Convert options array to a JSON string
     const optionsString = JSON.stringify(options);

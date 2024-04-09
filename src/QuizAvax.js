@@ -38,9 +38,10 @@ const QuizAvax = () => {
                     options: JSON.parse(question.options)
                 };
             });
-            const shuffledArray = shuffleArray(dataWithParsedOptions);
-            setQuestions(shuffledArray);
-        }).catch((error) => {
+            const shuffledQuestions = shuffleArray(dataWithParsedOptions);
+            setQuestions(shuffledQuestions);
+        })
+        .catch((error) => {
             console.error(`error fetching avax related Question: ${error}`);
         });
     }, []);
@@ -56,7 +57,7 @@ const QuizAvax = () => {
             setScores(score + 1);
         }
 
-        setCurrentQuestion(isCorrect ? 'Correct' : 'Incorrect!');
+        setCustomAlertMessage(isCorrect ? 'Correct' : 'Incorrect!');
         setShowCustomAlert(true);
 
         const nextQuestion = currentQuestion + 1;

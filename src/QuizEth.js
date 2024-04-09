@@ -101,11 +101,12 @@ const QuizEth = () => {
         await updateUserStats();
         
         const {jsStat} = userStats;
+        const {avaxStat} = userStats;
 
 ;
 
         const newScore = (score / questions.length * 100).toFixed();
-        const newAverage = ((parseFloat(newScore)  + parseFloat(jsStat)) / 2).toFixed(2);
+        const newAverage = ((parseFloat(newScore)  + parseFloat(jsStat) + parseFloat(avaxStat)) / 3).toFixed(2);
         console.log(newAverage);
 
         await axios.post('/api/submitScoresEth', {

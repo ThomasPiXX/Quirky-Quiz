@@ -39,7 +39,7 @@ return (
             ) : quiz.type === 'SignUpForm' ? (
               <SignUpForm/>
             ) : quiz.type === 'QuizAvax' ? (
-              <QuizAvac/>
+              <QuizAvax/>
             ) : null
           }
           />

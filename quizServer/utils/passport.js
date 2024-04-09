@@ -11,7 +11,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     db.get(`
-        SELECT users.*, userStat.eth_stats, userStat.js_stats, userStat.average_stat
+        SELECT users.*, userStat.eth_stats, userStat.js_stats,userStat.avaxStat, userStat.average_stat
         FROM users
         LEFT JOIN userStat ON users.userID = userStat.userID
         WHERE users.userID = ?`, [id], (error, row) => {
@@ -29,6 +29,7 @@ passport.deserializeUser((id, done) => {
             username: row.userName,
             ethStat: row.eth_stats,
             jsStat: row.js_stats,
+            avaxStat: row.avaxStat,
             averageStat: row.average_stat,
         };
         console.log('User Deserialized');

@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3');
-const express = require('express')
+const express = require('express');
 const ethRoute = express.Router();
 const dbQuiz = new sqlite3.Database('./quiz.db');
 

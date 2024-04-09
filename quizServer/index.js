@@ -16,7 +16,7 @@ const app = express();
 const port = 3001;
 const { csrfTokenRouter } = require('./routes/csrfToken');
 const { userStatRouter } = require('./routes/userStats');
-const { SubmitScoresJSRouter, SubmitScoreEthRouter } = require('./routes/submitScores');
+const { SubmitScoresJSRouter, SubmitScoreEthRouter, SubmitScoreAvaxRouter } = require('./routes/submitScores');
 const { AuthCheckRouter } = require('./routes/authCheck');
 
 
@@ -53,6 +53,7 @@ app.use('/api', csrfTokenRouter);
 app.use('/api', userStatRouter);
 app.use('/api', SubmitScoresJSRouter);
 app.use('/api', SubmitScoreEthRouter);
+app.use('/api', SubmitScoreAvaxRouter);
 app.use('/api', AuthCheckRouter);
 app.use('/api', LogoutRouter);
 

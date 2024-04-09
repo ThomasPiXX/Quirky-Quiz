@@ -1,10 +1,10 @@
 const sqlite3 = require('sqlite3');
 const express = require('express');
 const AvaxQuizRouter = express.Router();
-const dbAvax = new sqlite.Database('/quiz.db');
+const dbAvax = new sqlite3.Database('./quiz.db');
 
 
-AvaxQuizRouter.get('./avaxquiz', (req, res) => {
+AvaxQuizRouter.get('/avaxquiz', (req, res) => {
     console.log('avax route hits');
     dbAvax.all('SELECT * FROM questionAvax', (err, rows) => {
         if(err){
