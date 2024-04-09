@@ -104,7 +104,7 @@ const Quiz = () => {
       try{
         await updateUserStats();
 
-        const {ethStat} = userStats
+        const {ethStat} = userStats;
 
 
 
@@ -122,8 +122,6 @@ const Quiz = () => {
             'CSRF-Token': csrfToken,
           }
         });
-        
-        await updateUserStats();
 
         Navigate('/UserBoard');
       }catch(error){

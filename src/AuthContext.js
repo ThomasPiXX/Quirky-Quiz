@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [userStats, setUserStats] = useState('');
     const { csrfToken } = useCsrfToken();
 
-    // Define updateUserStats outside of useEffect so it can be included in the context value.
 
     const updateUserStats = async() => {
         try{
