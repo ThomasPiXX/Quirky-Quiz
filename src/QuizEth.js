@@ -100,8 +100,8 @@ const QuizEth = () => {
       try{
         await updateUserStats();
         
-        const {jsStat} = userStats;
-        const {avaxStat} = userStats;
+        const {jsStat, avaxStat} = userStats;
+        
 
 ;
 

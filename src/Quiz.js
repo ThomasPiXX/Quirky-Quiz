@@ -104,8 +104,8 @@ const Quiz = () => {
       try{
         await updateUserStats();
 
-        const {ethStat} = userStats;
-        const {avaxStat} = userStats;
+        const {ethStat, avaxStat} = userStats;
+
 
 
 
@@ -202,6 +202,12 @@ const Quiz = () => {
                 </div>
               </div>
             )}
+                            <button 
+                      className="btn waves-effect waves-light blue"
+                      onClick={() => handleBackToQuizSelection()}
+                    >
+                      Back to Quiz Selection
+              </button>
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const {cookieHash} = require('./utils/cookieHash');
@@ -13,7 +14,7 @@ const { LogoutRouter } = require('./routes/logout');
 const { AvaxQuizRouter } = require('./routes/AvaxQuiz');
 const { passport } = require('./utils/passport');
 const app = express();
-const port = 3001;
+const port = process.env.SERVER_PORT;
 const { csrfTokenRouter } = require('./routes/csrfToken');
 const { userStatRouter } = require('./routes/userStats');
 const { SubmitScoresJSRouter, SubmitScoreEthRouter, SubmitScoreAvaxRouter } = require('./routes/submitScores');
@@ -61,6 +62,6 @@ app.use('/api', LogoutRouter);
 
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running :)`);
 });
 

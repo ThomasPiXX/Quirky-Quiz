@@ -50,7 +50,7 @@ return (
         <Route path="/LoginForm" element = {<LoginForm/>}></Route>
         <Route path="/Quiz" element = {<Quiz/>}></Route>
         <Route path="/QuizEth" element = {<QuizEth/>}></Route>
-        <Route path="/QuizAvac"  element = {<QuizAvax/>}></Route>
+        <Route path="/QuizAvax"  element = {<QuizAvax/>}></Route>
         
       </Routes>
     </Router>
