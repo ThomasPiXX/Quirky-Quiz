@@ -195,6 +195,12 @@ const QuizAvax = () => {
                     </div>
                   </div>
                 )}
+                    <button 
+                      className="btn waves-effect waves-light blue"
+                      onClick={() => handleBackToQuizSelection()}
+                    >
+                      Back to Quiz Selection
+              </button>
               </div>
             </div>
           )}

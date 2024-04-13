@@ -202,7 +202,7 @@ const Quiz = () => {
                 </div>
               </div>
             )}
-                            <button 
+                    <button 
                       className="btn waves-effect waves-light blue"
                       onClick={() => handleBackToQuizSelection()}
                     >
