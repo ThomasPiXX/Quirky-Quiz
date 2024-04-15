@@ -45,7 +45,7 @@ SubmitScoreAvaxRouter.post('/submitScoreAvax', (req, res) => {
     const userId = req.user.id
     const { newScore, newAverage} = req.body;
 
-    statDb.run(`UPDATE userStat SET avax_stats = ?, average_stats WHERE userID = ?`, [newScore, newAverage, userId], (error) => {
+    statDb.run(`UPDATE userStat SET avaxStat = ?, average_stat = ? WHERE userID = ?`, [newScore, newAverage, userId], (error) => {
         if(error){
             console.log('Error while Updating avalanche score', error);
             res.status(500).send('An error occured while updating avax stats');
