@@ -108,7 +108,7 @@ const Quiz = () => {
 
 
 
-
+        
         const newScore = (score / questions.length * 100).toFixed(0);
         const newAverage = ((parseFloat(newScore) + parseFloat(ethStat) + parseFloat(avaxStat)) / 3).toFixed(2);
         console.log(newAverage);

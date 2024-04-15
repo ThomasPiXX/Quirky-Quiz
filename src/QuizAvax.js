@@ -102,13 +102,13 @@ const QuizAvax = () => {
                 const { jsStat, ethStat} = userStats;
                 
                 const newScore = (score / questions.length * 100).toFixed(0);
-                const newAverage = ((parseFloat(newScore) + parseFloat(ethStat) + parseFloat(jsStat)) / 3) . toFixed(2);
+                const newAverage = ((parseFloat(newScore) + parseFloat(ethStat) + parseFloat(jsStat)) / 3).toFixed(2);
                 
                 console.log(newScore);
                 console.log(newAverage);
 
 
-                await axios.post('/api/submitScoresAvax',{
+                await axios.post('/api/submitScoreAvax',{
                     newScore,
                     newAverage
                 },{
